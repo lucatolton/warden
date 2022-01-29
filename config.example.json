@@ -1,0 +1,27 @@
+{
+    "domain": "",
+    "https": false,
+    "http_port": 80,
+
+    "discord": {
+        "token": "",
+        "guild_id": "",
+
+        "remove_role": true,
+        "remove_role_id": "",
+
+        "add_role": false,
+        "add_role_id": "",
+
+        "prefix": "!",
+        "status": "unverified users",
+
+        "rules": false,
+        "rules_content": "Rule 1: no\nRule 2: yes"
+    },
+
+    "recaptcha": {
+        "secret_key": "",
+        "public_key": ""
+    }
+}

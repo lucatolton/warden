@@ -1,0 +1,29 @@
+{
+  "name": "warden",
+  "version": "1.0.0",
+  "description": "Easy way to add captcha verification to your Discord guild using reCaptcha V2",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucatolton/warden.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucatolton/warden/issues"
+  },
+  "homepage": "https://github.com/lucatolton/warden#readme",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "body-parser": "^1.19.1",
+    "discord.js": "^13.6.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "https": "^1.0.0",
+    "signale": "^1.4.0"
+  }
+}
