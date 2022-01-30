@@ -12,13 +12,11 @@ const log = new signale.Signale({ scope: 'Bot' });
 
 function main() {
     log.pending('Waiting for bot to login...');
-    signale.time('Login');
     client.login(config.discord.token).catch(() => {
         log.fatal('Unable to login to the bot. Are your intents enabled?');
         process.exit(0);
     }).then(() => {
         log.success('Logged in');
-        signale.timeEnd('Login');
     })
 }
 

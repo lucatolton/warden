@@ -10,16 +10,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
         integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <meta property="og:title" content="<%= domain %>">
     <meta property="og:description" content="Captcha Server">
-    <title>Captcha Server | <%= domain %></title>
+    <title>Verify | <%= domain %></title>
 </head>
 
 <body style="font-family:'Source Sans Pro',sans-serif;" class="flex justify-center items-center min-h-screen bg-gray-900 w-screen">
     <div class="text-center">
         <h1 class="text-white text-4xl font-bold"><%= domain %></h1>
-        <h2 class="mt-2 text-white text-3xl font-bold">Discord Verification Service</h2>
+        <h2 class="mt-2 text-white text-3xl font-bold">Verify</h2>
+
+        <form method="POST" id="reCaptcha">
+            <div class="g-recaptcha" data-sitekey="<%= publicKey %>" data-callback="onSubmit"></div>
+        </form>
     </div>
+
+    <script>
+        function onSubmit() {
+            document.getElementById("reCaptcha").submit();
+        }
+    </script>
 </body>
 
 </html>

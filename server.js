@@ -19,13 +19,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/verify/:verifyId?', (req, res) => {
-    if (!req.params.verifyId) return res.render('err/invalidLink');
-    if (!pool.isValidLink(req.params.verifyId)) return res.render('err/invalidLink');
-    res.render('verify', { siteKey: config.recaptcha['site_key'], id: req.params.verifyId });
+    if (!req.params.verifyId) return res.render('err/invalidLink', { domain: config.domain });
+    if (!pool.isValidLink(req.params.verifyId)) return res.render('err/invalidLink', { domain: config.domain });
+    res.render('verify', { publicKey: config.recaptcha['publicKey'], id: req.params.verifyId, domain: config.domain });
 });
 
 app.post('/verify/:verifyId?', async (req, res) => {
-    if (!req.body || !req.body['g-recaptcha-response']) return res.render('err/invalidLink');
+    if (!req.body || !req.body['g-recaptcha-response']) return res.render('err/invalidLink', { domain: config.domain });
 
     const response = await axios({
         method: 'post',
@@ -35,31 +35,28 @@ app.post('/verify/:verifyId?', async (req, res) => {
         }
     });
 
-    if (!response.data.success) return res.render('err/invalidCaptcha');
-    if (!pool.isValidLink(req.params.verifyId)) return res.render('err/invalidLink');
+    if (!response.data.success) return res.render('err/invalidCaptcha', { domain: config.domain });
+    if (!pool.isValidLink(req.params.verifyId)) return res.render('err/invalidLink', { domain: config.domain });
 
     discord.addRole(pool.getDiscordId(req.params.verifyId));
     discord.removeRole(pool.getDiscordId(req.params.verifyId));
 
     pool.removeLink(req.params.verifyId);
 
-    res.render('verified');
+    res.render('verified', { userID: pool.getDiscordId(req.params.verifyId), domain: config.domain });
 });
 
 app.get('/*', (req, res) => res.render('index', { domain: config.domain }));
 
 function main() {
     log.info('Waiting for web server to start...');
-    signale.time('Start');
     if (config.https) {
         https.createServer({
             key: fs.readFileSync('private.pem'),
             cert: fs.readFileSync('certificate.pem')
         }, app).listen(port, () => log.info(`Server started on port ${port}`));
-        signale.timeEnd('Start');
     } else {
         app.listen(port, () => log.info(`Server started on port ${port}`));
-        signale.timeEnd('Start');
     }
 }
 
